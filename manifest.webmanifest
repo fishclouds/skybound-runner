@@ -1,0 +1,22 @@
+{
+  "name": "Skybound Runner",
+  "short_name": "Skybound",
+  "description": "原创横版平台动作游戏，针对 iPhone 横屏触控优化。",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#76b8ff",
+  "theme_color": "#76b8ff",
+  "icons": [
+    {
+      "src": "icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

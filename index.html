@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no" />
+  <meta name="theme-color" content="#76b8ff" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Skybound Runner" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icon-180.png" />
+  <title>Skybound Runner</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body {
+      width: 100%; height: 100%; margin: 0; overflow: hidden;
+      background: #111; overscroll-behavior: none;
+      touch-action: none; user-select: none; -webkit-user-select: none;
+      font-family: ui-rounded, -apple-system, BlinkMacSystemFont, "SF Pro Rounded", system-ui, sans-serif;
+    }
+    #app { position: fixed; inset: 0; background: #76b8ff; }
+    canvas { position: absolute; inset: 0; width: 100%; height: 100%; display:block; }
+    #rotate {
+      position: absolute; inset: 0; z-index: 30; display:none; place-items:center;
+      background: rgba(8,12,20,.94); text-align:center; padding:32px; font-size:20px; line-height:1.6;
+    }
+    #hud {
+      position: absolute; z-index: 10; left: max(16px, env(safe-area-inset-left));
+      right: max(16px, env(safe-area-inset-right)); top: max(10px, env(safe-area-inset-top));
+      display:flex; justify-content:space-between; align-items:flex-start; pointer-events:none;
+      font-size: clamp(14px, 2.1vw, 22px); font-weight:800; text-shadow:0 2px 3px rgba(0,0,0,.45);
+    }
+    #message {
+      position:absolute; z-index:15; inset:0; display:grid; place-items:center;
+      pointer-events:none; text-align:center; padding:30px;
+    }
+    #message .card {
+      max-width:680px; padding:18px 24px; border-radius:18px;
+      background:rgba(10,18,30,.62); backdrop-filter:blur(8px);
+      box-shadow:0 10px 40px rgba(0,0,0,.18);
+      font-weight:800; line-height:1.5; font-size:clamp(18px,3vw,34px);
+      opacity:0; transform:translateY(8px); transition:.2s ease;
+    }
+    #message .card.show { opacity:1; transform:none; }
+    #controls {
+      position:absolute; z-index:20; inset:0; pointer-events:none;
+    }
+    .pad {
+      position:absolute; bottom:max(18px, env(safe-area-inset-bottom)); display:flex; gap:14px; pointer-events:auto;
+    }
+    #movePad { left:max(18px, env(safe-area-inset-left)); }
+    #actionPad { right:max(18px, env(safe-area-inset-right)); }
+    .btn {
+      width:clamp(66px,10vw,92px); height:clamp(66px,10vw,92px); border-radius:50%;
+      border:2px solid rgba(255,255,255,.55); color:white; background:rgba(20,32,52,.42);
+      box-shadow: inset 0 0 0 2px rgba(0,0,0,.08), 0 5px 20px rgba(0,0,0,.12);
+      display:grid; place-items:center; font-size:clamp(25px,4vw,38px); font-weight:900;
+      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+    }
+    .btn.active { transform:scale(.94); background:rgba(255,255,255,.28); }
+    #jump { width:clamp(78px,12vw,104px); height:clamp(78px,12vw,104px); }
+    #restart {
+      position:absolute; z-index:22; right:max(14px, env(safe-area-inset-right));
+      top:calc(max(10px, env(safe-area-inset-top)) + 40px);
+      border:0; border-radius:999px; padding:9px 13px; font-weight:800;
+      color:#fff; background:rgba(10,18,30,.42); backdrop-filter:blur(6px);
+    }
+    @media (orientation: portrait) {
+      #rotate { display:grid; }
+      #controls, #hud, #restart { visibility:hidden; }
+    }
+    @media (hover:hover) and (pointer:fine) {
+      .btn { opacity:.42; }
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <canvas id="game"></canvas>
+  <div id="hud"><div id="coinText">✦ 0</div><div id="statusText">1-1</div></div>
+  <button id="restart" type="button">重开</button>
+  <div id="message"><div class="card" id="messageCard"></div></div>
+  <div id="controls">
+    <div class="pad" id="movePad">
+      <div class="btn" id="left" aria-label="左">◀</div>
+      <div class="btn" id="right" aria-label="右">▶</div>
+    </div>
+    <div class="pad" id="actionPad">
+      <div class="btn" id="jump" aria-label="跳跃">↑</div>
+    </div>
+  </div>
+  <div id="rotate">请将 iPhone 横过来<br><small>Skybound Runner 为横屏游戏</small></div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
